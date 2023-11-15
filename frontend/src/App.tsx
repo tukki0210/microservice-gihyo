@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type Book = {
+  id: number,
+  title: string,
+  author: string,
+  price: number
+}
+
+const LIST_BOOKS = gql`
+  query ListBooks {
+    books {
+      id
+      title
+      author
+      price
+    }
+  }
+`
+
+const App = () => {
+
+  const { loading, error, data } = useQuery(LIST_BOOKS)
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>`Error! ${error.message}`</p>
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <table>
+        <thead>
+          <tr>
+            <th>書籍名</th>
+            <th>著者</th>
+            <th>価格&nbsp;(円)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.books.map((book: Book) => (
+            <tr key={book.id}>
+              <td>{book.title}</td>
+              <td>{book.author}</td>
+              <td align='right'>{book.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
