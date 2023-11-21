@@ -9,12 +9,3 @@ export const resolvers = {
         }
     }
 }
-
-// const books = [
-//     {
-//         id: 1,
-//         title: "The Awakening",
-//         author: "Kate Chopin",
-//         price: 1000
-//     },
-// ]
