@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: bff
-        image: gihyo-ms-dev-book/bff:0.1
+        image: gihyo-ms-dev-book/bff:0.3
         env:
         - name: CATALOGUE_CLIENT_URI
           value: "catalogue:50051"
