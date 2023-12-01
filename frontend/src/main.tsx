@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import App from './App.tsx'
 import './index.css'
+import { CssBaseline } from '@mui/material'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -11,8 +12,10 @@ const client = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <CssBaseline>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </CssBaseline>
   </React.StrictMode>,
 )
