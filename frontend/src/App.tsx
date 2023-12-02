@@ -1,33 +1,28 @@
 // import { useState } from 'react'
 // import { useQuery, gql } from '@apollo/client'
+import { Box, Container } from '@mui/material'
 import './App.css'
 import Catalogue from './Catalogue'
-import { FC } from 'react'
-
-type Book = {
-  id: number,
-  title: string,
-  author: string,
-  price: number
-}
+import { BasicAppBar } from 'BasicAppBar'
+import { CartItem } from './types.ts';
 
 
 // type propsType = {
 //   keycloak: any,
-
 // }
 
-type cart = {
-  book: Book,
-  quantity: number,
-}
 
-const App: FC = () => {
+const App = () => {
   // const keycloak = props.keycloak
-const cart: cart[] = []
+  const cart: CartItem[] = []
 
   return (
-   <Catalogue cart={cart} />
+    <Box sx={{ flexGrow: 1 }}>
+      <BasicAppBar cart={cart} />
+      <Container>
+        <Catalogue cart={cart} />
+      </Container>
+    </Box>
   )
 }
 

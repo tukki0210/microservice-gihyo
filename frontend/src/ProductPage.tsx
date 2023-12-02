@@ -1,8 +1,13 @@
-import { Button, Dialog, DialogActions, DialogContent,
-        DialogTitle, IconButton, TextField, Typography, styled } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import {
+  Button, DialogActions, DialogContent,
+  TextField, Typography
+} from '@mui/material';
 import { useLazyQuery, gql } from '@apollo/client';
-import { FC, useState } from 'react'
+import { useState } from 'react'
+
+import { BootstrapDialog } from './components/BootstrapDialog'
+import { BootstrapDialogTitle } from './components/BootstrapDialogTitle'
+import { CartItem } from './types.ts';
 
 const GET_BOOK = gql`
 query ExampleQuery($bookId: Int){
@@ -14,62 +19,14 @@ query ExampleQuery($bookId: Int){
   }
 }
 `
-type Book = {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-};
-
-type Cart = {
-  book: Book;
-  quantity: number;
-};
 
 type PropsType = {
   bookId: number;
-  cart: Array<Cart>;
+  cart: Array<CartItem>;
 };
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}))
 
-type BootstrapPropsType = {
-  id: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}
-const BootstrapDialogTitle: FC<BootstrapPropsType> = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-}
-
-export const ProductPage: FC<PropsType> = (props) => {
+export const ProductPage = (props: PropsType) => {
   const [open, setOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [getBook, { loading, error, data }] = useLazyQuery(GET_BOOK);
