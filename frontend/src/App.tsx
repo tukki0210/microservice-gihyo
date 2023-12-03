@@ -1,18 +1,17 @@
-// import { useState } from 'react'
-// import { useQuery, gql } from '@apollo/client'
 import { Box, Container } from '@mui/material'
 import './App.css'
 import Catalogue from './Catalogue'
 import { BasicAppBar } from 'BasicAppBar'
-import { CartItem } from './types.ts';
+import { CartItem} from './types.ts';
 
 
 // type propsType = {
-//   keycloak: any,
+//   keycloak: any, 
 // }
 
 
-const App = () => {
+const App = () =>  
+{
   // const keycloak = props.keycloak
   const cart: CartItem[] = []
 

@@ -1,10 +1,10 @@
 import { useQuery, gql } from '@apollo/client';
-import { Paper, Table, TableBody, TableCell, 
-        TableContainer,TableHead, TableRow } from '@mui/material';
-
+import {
+    Paper, Table, TableBody, TableCell,
+    TableContainer, TableHead, TableRow
+} from '@mui/material';
 import { ProductPage } from './ProductPage'
-import { FC } from 'react';
-
+import { Book, CartItem } from './types.ts';
 
 const LIST_BOOKS = gql`
   query ListBooks {
@@ -14,28 +14,22 @@ const LIST_BOOKS = gql`
         author
         price
     }
-  }
+}
 `
-type Book = {
-    id: number;
-    title: string;
-    author: string;
-    price: number;
-};
 
-type Cart = {
-    book: Book;
-    quantity: number;
-};
 
 type PropsType = {
-    cart: Array<Cart>;
+    cart: Array<CartItem>;
 };
 
+function sun(){
+    console.log("sun")
 
-export const Catalogue: FC<PropsType> = (props) => {
+}
+
+export const Catalogue = (props: PropsType) => {
     const { loading, error, data } = useQuery(LIST_BOOKS)
-
+    sun()
     if (loading) return 'Loading...'
     if (error) return `Error! ${error.message}`
 
@@ -52,7 +46,7 @@ export const Catalogue: FC<PropsType> = (props) => {
                 </TableHead>
                 <TableBody>
                     {data.books.map((row: Book) => (
-                        <TableRow key={row.id}  sx={{ '&:last-child td, &:last-child th': { border: 0 }}} >
+                        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
                             <TableCell component="th" scope='row'>{row.title}</TableCell>
                             <TableCell>{row.author}</TableCell>
                             <TableCell align="right">{row.price}</TableCell>
@@ -63,7 +57,8 @@ export const Catalogue: FC<PropsType> = (props) => {
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>)
+        </TableContainer>
+    )
 }
 
 export default Catalogue
