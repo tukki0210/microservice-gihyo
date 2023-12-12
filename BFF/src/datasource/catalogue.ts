@@ -2,9 +2,8 @@
 import { credentials } from '@grpc/grpc-js';
 import DataLoader from 'dataloader';
 import { CatalogueClient } from '../../generated/catalogue_grpc_pb.js';
-import { ListBooksResponse } from '../../generated/catalogue_pb.js';
+import { GetBookRequest, GetBookResponse, ListBooksResponse } from '../../generated/catalogue_pb.js';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb"
-
 
 // const ProtoPath = './proto/catalogue.proto';
 // const packageDefinition = protoLoader.loadSync(ProtoPath);
@@ -29,44 +28,69 @@ export class CatalogueDataSource {
     private client: CatalogueClient;
     private token: string;
     private book: Book;
-    private books: Array<Book>;
+    private bookList: Array<Book>;
 
     constructor(options: { token: string } = { token: '' }) {
         this.client = client;
         this.token = options.token;
     }
 
-
     // DataLoaderの作成
-    private bookLoader = new DataLoader(async (ids: Array<number>) => {
-        const empty = new Empty();
-        const bookList = await new Promise<Book[]>((resolve, reject) => {
-            this.client.listBooks( empty , (err: any, response: ListBooksResponse) => {
+    // private bookLoader = new DataLoader(async (ids: Array<number>) => {
+    //     console.log('bookLoader');
+    //     const bookList = await this.listBooks();
+
+    //     const bookIdToBookMap = bookList.reduce((mapping: { [id: number]: Book }, book: Book) => {
+    //         mapping[book.id] = book;
+    //         return mapping;
+    //     }, {});
+
+    //     this.bookList = bookList;
+
+    //     return ids.map(id => bookIdToBookMap[id]);
+    // })
+
+    // async getBook(id: number) {
+    //     console.log('getBook');
+    //     const book = await this.bookLoader.load(id);
+    //     return book;
+    // }
+
+    async getBook(id: number) {
+        console.log('getBook');
+        return new Promise<Book>((resolve, reject) => {
+            const request = new GetBookRequest();
+            request.setId(id);
+            this.client.getBook(request, (err: any, response: GetBookResponse) => {
                 if (err) {
-                    console.log(err);
-                    reject(err);
+                    return reject(err);
                 }
-                return response.getBooksList();
+                return resolve({
+                    id: response.getBook().getId(),
+                    title: response.getBook().getTitle(),
+                    author: response.getBook().getAuthor(),
+                    price: response.getBook().getPrice()
+                });
             });
         });
+    }
 
-        const bookIdToBookMap = bookList.reduce((mapping: { [id: number]: Book }, book: Book) => {
-            mapping[book.id] = book;
-            return mapping;
-        }, {});
-
-        return ids.map(id => bookIdToBookMap[id]);
-
-    })
-    async getBook(id: number) {
-        // this.book = await this.client.getBook({ id: id }, (err: any, response: { book: Book; }) => {
-        //     if (err) {
-        //         console.log(err);
-        //         return;
-        //     }
-        //     return response.book;
-        // })
-        // return this.book;
-        return this.bookLoader.load(id);
+    async listBooks() {
+        console.log('listBooks');
+        const empty = new Empty();
+        return new Promise<Book[]>((resolve, reject) => {
+            this.client.listBooks(empty, (err: any, response: ListBooksResponse) => {
+                if (err) {
+                    console.log(err);
+                    return reject(err);
+                }
+                return resolve(response.getBooksList().map(book => ({
+                    id: book.getId(),
+                    title: book.getTitle(),
+                    author: book.getAuthor(),
+                    price: book.getPrice()
+                })));
+            });
+        });
     }
 }

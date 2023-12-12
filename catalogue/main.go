@@ -63,6 +63,8 @@ func (s *server) GetBook(ctx context.Context, in *pb.GetBookRequest) (*pb.GetBoo
 		Price:  int32(book.Price),
 	}
 
+	fmt.Println("getbook");
+
 	// レスポンス用のコードを使ってレスポンスを作り返却
 	return &pb.GetBookResponse{Book: protoBook}, nil
 }
@@ -80,6 +82,7 @@ func (s *server) ListBooks(ctx context.Context, in *emptypb.Empty) (*pb.ListBook
 		}
 		protoBooks = append(protoBooks, protoBook)
 	}
+	fmt.Println("listbooks");
 
 	// レスポンス用のコードを使ってレスポンスを作り返却
 	return &pb.ListBooksResponse{Books: protoBooks}, nil
