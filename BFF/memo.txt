@@ -1,0 +1,1 @@
+grpc_tools_node_protoc_ts はcommonjsでファイルを作成する
