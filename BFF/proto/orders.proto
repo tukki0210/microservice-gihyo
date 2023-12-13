@@ -1,4 +1,4 @@
-syntax="proto3";
+syntax = "proto3";
 
 package order;
 
@@ -11,7 +11,7 @@ service OrderService {
 }
 
 message GetOrderRequest {
-    string id = 1;
+    string orderId = 1;
 }
 
 message GetOrderResponse {
@@ -30,7 +30,7 @@ message CreateOrderRequest {
     string customerId = 1;
     string customerName = 2;
     repeated OrderItem orderItem = 3;
-}
+}   
 
 message CreateOrderResponse {
     string orderId = 1;

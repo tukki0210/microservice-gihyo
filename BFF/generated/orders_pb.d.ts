@@ -4,8 +4,8 @@
 import * as jspb from "google-protobuf";
 
 export class GetOrderRequest extends jspb.Message {
-  getId(): string;
-  setId(value: string): void;
+  getOrderid(): string;
+  setOrderid(value: string): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GetOrderRequest.AsObject;
@@ -19,7 +19,7 @@ export class GetOrderRequest extends jspb.Message {
 
 export namespace GetOrderRequest {
   export type AsObject = {
-    id: string,
+    orderid: string,
   }
 }
 

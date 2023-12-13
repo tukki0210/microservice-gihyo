@@ -41,7 +41,7 @@ export class OrderDataSource {
         console.log('getOrder');
         return new Promise<Order>((resolve, reject) => {
             const request = new GetOrderRequest();
-            request.setId(id);
+            request.setOrderid(id);
             this.client.getOrder(request, (err: any, response: GetOrderResponse) => {
                 if (err) {
                     return reject(err);

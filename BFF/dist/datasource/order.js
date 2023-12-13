@@ -18,7 +18,7 @@ class OrderDataSource {
         console.log('getOrder');
         return new Promise((resolve, reject) => {
             const request = new orders_pb_js_1.GetOrderRequest();
-            request.setId(id);
+            request.setOrderid(id);
             this.client.getOrder(request, (err, response) => {
                 if (err) {
                     return reject(err);
