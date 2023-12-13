@@ -11,6 +11,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const schema_js_1 = require("./schema.js");
 const resolver_js_1 = require("./resolver.js");
 const catalogue_js_1 = require("./datasource/catalogue.js");
+const order_js_1 = require("./datasource/order.js");
 const app = (0, express_1.default)();
 const server = new server_1.ApolloServer({
     typeDefs: schema_js_1.typeDefs,
@@ -22,7 +23,8 @@ const server = new server_1.ApolloServer({
         context: async ({ req }) => {
             return {
                 dataSources: {
-                    catalogueApi: new catalogue_js_1.CatalogueDataSource()
+                    catalogueApi: new catalogue_js_1.CatalogueDataSource(),
+                    orderApi: new order_js_1.OrderDataSource()
                 }
             };
         }

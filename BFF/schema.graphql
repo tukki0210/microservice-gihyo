@@ -1,8 +1,3 @@
-// import { readFileSync } from 'fs'
-
-// export const typeDefs = readFileSync('BFF/schema.graphql',{encoding:'utf-8'});
-
-export const typeDefs = `#graphql
 type Book {
     id: Int,
     title: String,
@@ -49,4 +44,4 @@ type Mutation {
     # updateOrder(order: OrderInput): Order
     # deleteOrder(orderId: String): Order
 }
-`
+

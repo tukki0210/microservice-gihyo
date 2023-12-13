@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import { typeDefs } from "./schema.js";
 import { resolvers } from "./resolver.js";
 import { CatalogueDataSource } from "./datasource/catalogue.js";
+import { OrderDataSource } from "./datasource/order.js";
 
 
 const app = express();
@@ -46,7 +47,8 @@ app.use(
         context: async ({ req }) => {
             return {
                 dataSources: {
-                    catalogueApi: new CatalogueDataSource()
+                    catalogueApi: new CatalogueDataSource(),
+                    orderApi: new OrderDataSource()
                 }
             }
         }

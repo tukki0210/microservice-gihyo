@@ -37,8 +37,20 @@ var (
 		Author: "Paul Auster",
 		Price:  2000,
 	}
+	book3 = Book{
+		Id:     3,
+		Title:  "The name of the wind",
+		Author: "Patrick Rothfuss",
+		Price:  1800,
+	}
+	book4 = Book{
+		Id:     4,
+		Title:  "The Three-Body Problem",
+		Author: "Cixin Liu",
+		Price:  2000,
+	}
 
-	books = []Book{book1, book2}
+	books = []Book{book1, book2, book3, book4}
 )
 
 func getBook(i int32) Book {
@@ -63,7 +75,7 @@ func (s *server) GetBook(ctx context.Context, in *pb.GetBookRequest) (*pb.GetBoo
 		Price:  int32(book.Price),
 	}
 
-	fmt.Println("getbook");
+	fmt.Println("getbook")
 
 	// レスポンス用のコードを使ってレスポンスを作り返却
 	return &pb.GetBookResponse{Book: protoBook}, nil
@@ -82,7 +94,7 @@ func (s *server) ListBooks(ctx context.Context, in *emptypb.Empty) (*pb.ListBook
 		}
 		protoBooks = append(protoBooks, protoBook)
 	}
-	fmt.Println("listbooks");
+	fmt.Println("listbooks")
 
 	// レスポンス用のコードを使ってレスポンスを作り返却
 	return &pb.ListBooksResponse{Books: protoBooks}, nil
