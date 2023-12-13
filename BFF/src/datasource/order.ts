@@ -1,31 +1,13 @@
 import { credentials } from '@grpc/grpc-js';
-import DataLoader from 'dataloader';
 import { OrderServiceClient } from '../../generated/orders_grpc_pb.js';
 import { CreateOrderRequest, CreateOrderResponse, GetOrderRequest, GetOrderResponse, ListOrdersRequest, ListOrdersResponse, Order } from '../../generated/orders_pb.js'
-import { Empty } from "google-protobuf/google/protobuf/empty_pb"
 
 
-const clientUri = process.env.CATALOGUE_CLIENT_URI || 'localhost:50051';
+const clientUri = process.env.CATALOGUE_CLIENT_URI || 'localhost:50052';
 console.log(clientUri);
 
 const client: OrderServiceClient = new OrderServiceClient(clientUri, credentials.createInsecure());
 
-
-
-// type Order = {
-//     id: string,
-//     customerId: string,
-//     customerName: string,
-//     orderItem: OrderItem[],
-// }
-
-// type OrderItem = {
-//     itemId: number,
-//     title: string,
-//     author: String,
-//     quantity: number,
-//     unitPrice: number,
-// }
 
 // DataSourceクラスの作成
 export class OrderDataSource {

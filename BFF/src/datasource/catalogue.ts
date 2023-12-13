@@ -19,8 +19,6 @@ const client: CatalogueClient = new CatalogueClient(clientUri, credentials.creat
 export class CatalogueDataSource {
     private client: CatalogueClient;
     private token: string;
-    private book: Book;
-    private bookList: Array<Book>;
 
     constructor(options: { token: string } = { token: '' }) {
         this.client = client;

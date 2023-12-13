@@ -11,8 +11,6 @@ const client = new catalogue_grpc_pb_js_1.CatalogueClient(clientUri, grpc_js_1.c
 class CatalogueDataSource {
     client;
     token;
-    book;
-    bookList;
     constructor(options = { token: '' }) {
         this.client = client;
         this.token = options.token;
