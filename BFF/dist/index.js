@@ -17,18 +17,23 @@ const server = new server_1.ApolloServer({
     typeDefs: schema_js_1.typeDefs,
     resolvers: resolver_js_1.resolvers
 });
-(async () => {
-    await server.start();
-    app.use('/graphql', (0, cors_1.default)(), body_parser_1.default.json(), (0, express4_1.expressMiddleware)(server, {
-        context: async ({ req }) => {
-            return {
-                dataSources: {
-                    catalogueApi: new catalogue_js_1.CatalogueDataSource(),
-                    orderApi: new order_js_1.OrderDataSource()
-                }
-            };
-        }
-    }));
+try {
+    async () => {
+        await server.start();
+        app.use('/graphql', (0, cors_1.default)(), body_parser_1.default.json(), (0, express4_1.expressMiddleware)(server, {
+            context: async ({ req }) => {
+                return {
+                    dataSources: {
+                        catalogueApi: new catalogue_js_1.CatalogueDataSource(),
+                        orderApi: new order_js_1.OrderDataSource()
+                    }
+                };
+            }
+        }));
+    };
     app.listen(4000);
-    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
-})();
+    console.log('🚀 Server ready at http://localhost:4000/graphql');
+}
+catch (err) {
+    console.error(err);
+}

@@ -17,32 +17,39 @@ class CatalogueDataSource {
     }
     async getBook(id) {
         console.log('getBook');
-        return new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject) => {
             const request = new catalogue_pb_js_1.GetBookRequest();
             request.setId(id);
             this.client.getBook(request, (err, response) => {
                 if (err) {
-                    return reject(err);
+                    reject(err);
+                    return;
+                }
+                const book = response.getBook();
+                if (!book) {
+                    reject(new Error('Book not found'));
+                    return;
                 }
                 const newBook = new catalogue_pb_js_1.Book();
-                newBook.setId(response.getBook().getId());
-                newBook.setTitle(response.getBook().getTitle());
-                newBook.setAuthor(response.getBook().getAuthor());
-                newBook.setPrice(response.getBook().getPrice());
-                return resolve(newBook);
+                newBook.setId(book.getId());
+                newBook.setTitle(book.getTitle());
+                newBook.setAuthor(book.getAuthor());
+                newBook.setPrice(book.getPrice());
+                resolve(newBook);
             });
         });
     }
     async listBooks() {
         console.log('listBooks');
         const empty = new empty_pb_1.Empty();
-        return new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject) => {
             this.client.listBooks(empty, (err, response) => {
                 if (err) {
                     console.log(err);
-                    return reject(err);
+                    reject(err);
+                    return;
                 }
-                return resolve(response.getBooksList().map(book => {
+                resolve(response.getBooksList().map(book => {
                     const newBook = new catalogue_pb_js_1.Book();
                     newBook.setId(book.getId()),
                         newBook.setTitle(book.getTitle()),

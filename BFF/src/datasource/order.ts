@@ -1,85 +1,102 @@
-import { credentials } from '@grpc/grpc-js';
-import { OrderServiceClient } from '../../generated/orders_grpc_pb.js';
-import { CreateOrderRequest, CreateOrderResponse, GetOrderRequest, GetOrderResponse, ListOrdersRequest, ListOrdersResponse, Order } from '../../generated/orders_pb.js'
+import { credentials, type ServiceError } from '@grpc/grpc-js'
+import { OrderServiceClient } from '../../generated/orders_grpc_pb.js'
+import { CreateOrderRequest, type CreateOrderResponse, GetOrderRequest, type GetOrderResponse, ListOrdersRequest, type ListOrdersResponse, Order, type OrderItem } from '../../generated/orders_pb.js'
 
+const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50052'
+console.log(clientUri)
 
-const clientUri = process.env.CATALOGUE_CLIENT_URI || 'localhost:50052';
-console.log(clientUri);
-
-const client: OrderServiceClient = new OrderServiceClient(clientUri, credentials.createInsecure());
-
+const client: OrderServiceClient = new OrderServiceClient(clientUri, credentials.createInsecure())
 
 // DataSourceクラスの作成
 export class OrderDataSource {
-    private client: OrderServiceClient;
-    private token: string;
+    private readonly client: OrderServiceClient
+    private readonly token: string
 
     constructor(options: { token: string } = { token: '' }) {
-        this.client = client;
-        this.token = options.token;
+        this.client = client
+        this.token = options.token
     }
 
-    async getOrder(id: string) {
-        console.log('getOrder');
-        return new Promise<Order>((resolve, reject) => {
-            const request = new GetOrderRequest();
-            request.setOrderid(id);
-            this.client.getOrder(request, (err: any, response: GetOrderResponse) => {
+    async getOrder(id: string): Promise<Order> {
+        console.log('getOrder')
+        return await new Promise<Order>((resolve, reject) => {
+            const request = new GetOrderRequest()
+            request.setOrderid(id)
+            this.client.getOrder(request, (err: ServiceError | null, response: GetOrderResponse) => {
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 if (err) {
-                    return reject(err);
+                    reject(err)
                 }
-                const newOrder = new Order();
-                newOrder.setId(response.getOrder().getId());
-                newOrder.setCustomerid(response.getOrder().getCustomerid());
-                newOrder.setCustomername(response.getOrder().getCustomername());
-                newOrder.setOrderitemList(response.getOrder().getOrderitemList());
-                return resolve(newOrder);
-            });
-        });
+                const order = response.getOrder()
+
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                if (!order) {
+                    reject(new Error('Order not found')); return
+                }
+
+                const newOrder = new Order()
+                newOrder.setId(order.getId())
+                newOrder.setCustomerid(order.getCustomerid())
+                newOrder.setCustomername(order.getCustomername())
+                newOrder.setOrderitemList(order.getOrderitemList())
+                resolve(newOrder)
+            })
+        })
     }
 
-    async listOrders(customerId: string) {
-        console.log('listOrders');
-        return new Promise<Order[]>((resolve, reject) => {
-            const request = new ListOrdersRequest();
-            request.setCustomerid(customerId);
-            this.client.listOrders(request, (err: any, response: ListOrdersResponse) => {
+    async listOrders(customerId: string): Promise<Order[]> {
+        console.log('listOrders')
+        return await new Promise<Order[]>((resolve, reject) => {
+            const request = new ListOrdersRequest()
+            request.setCustomerid(customerId)
+            this.client.listOrders(request, (err: ServiceError | null, response: ListOrdersResponse) => {
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 if (err) {
-                    console.log(err);
-                    return reject(err);
+                    console.log(err)
+                    reject(err); return
                 }
-                return resolve(response.getOrdersList().map(order => {
-                    const newOrder = new Order();
-                    newOrder.setId(order.getId());
-                    newOrder.setCustomerid(order.getCustomerid());
-                    newOrder.setCustomername(order.getCustomername());
-                    newOrder.setOrderitemList(order.getOrderitemList());
-                    return newOrder;
-                }));
-            });
-        });
+                resolve(response.getOrdersList().map(order => {
+                    const newOrder = new Order()
+                    newOrder.setId(order.getId())
+                    newOrder.setCustomerid(order.getCustomerid())
+                    newOrder.setCustomername(order.getCustomername())
+                    newOrder.setOrderitemList(order.getOrderitemList())
+                    return newOrder
+                }))
+            })
+        })
     }
 
-    async createOrder(input) {
+    async createOrder(input: { customerId: string, customerName: string, orderItem: OrderItem[] }): Promise<Order> {
         const param = {
             customerId: input.customerId,
             customerName: input.customerName,
             orderItem: input.orderItem
         }
-        return new Promise((resolve, reject) => {
-            const request = new CreateOrderRequest();
-            request.setCustomerid(param.customerId);
-            request.setCustomername(param.customerName);
-            request.setOrderitemList(param.orderItem);
+        return await new Promise<Order>((resolve, reject) => {
+            const request = new CreateOrderRequest()
+            request.setCustomerid(param.customerId)
+            request.setCustomername(param.customerName)
+            request.setOrderitemList(param.orderItem)
 
-            this.client.createOrder(request, (err: any, response: CreateOrderResponse) => {
+            this.client.createOrder(request, (err: ServiceError | null, response: CreateOrderResponse) => {
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 if (err) {
-                    console.log(err);
-                    return reject(err);
-                } else {
-                    console.log(response);
-                    return resolve(response);
+                    console.log(err)
+                    reject(err)
                 }
+                // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+                if (!response) {
+                    reject(new Error('Response is null or undefined')); return
+                }
+                const order = new Order()
+                // サーバから主キーのorderidを取得
+                order.setId(response.getOrderid())
+                // クライアントからのリクエストをそのままセット
+                order.setCustomerid(request.getCustomerid())
+                order.setCustomername(request.getCustomername())
+                order.setOrderitemList(request.getOrderitemList())
+                resolve(order)
             })
         })
     }

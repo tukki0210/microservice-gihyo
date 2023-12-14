@@ -1,49 +1,45 @@
-type Book = {
-    id: number;
-    title: string;
-    author: string;
-    price: number;
-}
+import type { Book } from '../generated/catalogue_pb'
+import type { CreateOrderRequest, Order, OrderItem } from '../generated/orders_pb'
 
 export const resolvers = {
     Query: {
-        book: async (parent: any, args: { id: any; }, context: { dataSources: { catalogueApi: { getBook: (arg0: number) => Promise<Book>; }; }; }) => {
-            return await context.dataSources.catalogueApi.getBook(args.id);
+        book: async (parent: unknown, args: { id: number }, context: { dataSources: { catalogueApi: { getBook: (arg0: number) => Promise<Book> } } }) => {
+            return await context.dataSources.catalogueApi.getBook(args.id)
         },
-        books: async (parent: any, args: any, context: { dataSources: { catalogueApi: { listBooks: () => Promise<Book[]>; }; }; }) => {
-            return await context.dataSources.catalogueApi.listBooks();
-
+        books: async (parent: unknown, args: unknown, context: { dataSources: { catalogueApi: { listBooks: () => Promise<Book[]> } } }) => {
+            return await context.dataSources.catalogueApi.listBooks()
         },
-        order: async (parent: any, args: { orderid: any; }, context: {
+        order: async (parent: unknown, args: { orderid: string }, context: {
             dataSources: {
-                catalogueApi: any; orderApi: { getOrder: (arg0: string) => Promise<any>; },
-            };
+                catalogueApi: { getBook: (arg0: number) => Promise<Book> }
+                orderApi: { getOrder: (arg0: string) => Promise<Order> }
+            }
         }) => {
-            const response = await context.dataSources.orderApi.getOrder(args.orderid);
+            const response = await context.dataSources.orderApi.getOrder(args.orderid)
 
-            response.orderItem = await Promise.all(
-                response.orderItem.map(async (order) => {
-                    const book = await context.dataSources.catalogueApi.getBook(order.itemId);
+            const order = await Promise.all(
+                response.getOrderitemList().map(async (orderItem: OrderItem) => {
+                    const book = await context.dataSources.catalogueApi.getBook(orderItem.getItemid())
                     return {
-                        itemId: order.itemId,
-                        title: book.title,
-                        author: book.author,
-                        quantity: order.quantity,
-                        unitPrice: order.unitPrice
+                        itemId: orderItem.getItemid(),
+                        title: book.getTitle(),
+                        author: book.getAuthor(),
+                        quantity: orderItem.getQuantity(),
+                        unitPrice: orderItem.getUnitprice()
                     }
                 })
             )
-            return response;
+            return order
         },
-        orders: async (parent: any, args: { customerId: any; }, context: { dataSources: { orderApi: { listOrders: (arg0: string) => Promise<any>; }; }; }) => {
-            return await context.dataSources.orderApi.listOrders(args.customerId);
-        },
+        orders: async (parent: unknown, args: { customerId: string }, context: { dataSources: { orderApi: { listOrders: (arg0: string) => Promise<Order[]> } } }) => {
+            return await context.dataSources.orderApi.listOrders(args.customerId)
+        }
     },
     Mutation: {
-        createOrder: async (parent, args: {
-            input(input: any): unknown; order: any;
-        }, context: { dataSources: { orderApi: { createOrder: (arg0: any) => Promise<any>; }; }; }) => {
-            return await context.dataSources.orderApi.createOrder(args.input);
+        createOrder: async (parent: unknown, args: {
+            input: CreateOrderRequest
+        }, context: { dataSources: { orderApi: { createOrder: (arg0: CreateOrderRequest) => Promise<Order> } } }) => {
+            return await context.dataSources.orderApi.createOrder(args.input)
         }
     }
 }

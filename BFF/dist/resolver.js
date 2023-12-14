@@ -11,21 +11,21 @@ exports.resolvers = {
         },
         order: async (parent, args, context) => {
             const response = await context.dataSources.orderApi.getOrder(args.orderid);
-            response.orderItem = await Promise.all(response.orderItem.map(async (order) => {
-                const book = await context.dataSources.catalogueApi.getBook(order.itemId);
+            const order = await Promise.all(response.getOrderitemList().map(async (orderItem) => {
+                const book = await context.dataSources.catalogueApi.getBook(orderItem.getItemid());
                 return {
-                    itemId: order.itemId,
-                    title: book.title,
-                    author: book.author,
-                    quantity: order.quantity,
-                    unitPrice: order.unitPrice
+                    itemId: orderItem.getItemid(),
+                    title: book.getTitle(),
+                    author: book.getAuthor(),
+                    quantity: orderItem.getQuantity(),
+                    unitPrice: orderItem.getUnitprice()
                 };
             }));
-            return response;
+            return order;
         },
         orders: async (parent, args, context) => {
             return await context.dataSources.orderApi.listOrders(args.customerId);
-        },
+        }
     },
     Mutation: {
         createOrder: async (parent, args, context) => {
