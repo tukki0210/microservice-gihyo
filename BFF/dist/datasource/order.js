@@ -28,7 +28,7 @@ class OrderDataSource {
                     reject(new Error('Order not found'));
                     return;
                 }
-                resolve(order);
+                resolve(order.toObject());
             });
         });
     }
@@ -49,7 +49,7 @@ class OrderDataSource {
                     newOrder.setCustomerid(order.getCustomerid());
                     newOrder.setCustomername(order.getCustomername());
                     newOrder.setOrderitemList(order.getOrderitemList());
-                    return newOrder;
+                    return newOrder.toObject();
                 }));
             });
         });
@@ -79,7 +79,7 @@ class OrderDataSource {
                 order.setCustomerid(request.getCustomerid());
                 order.setCustomername(request.getCustomername());
                 order.setOrderitemList(request.getOrderitemList());
-                resolve(order);
+                resolve(order.toObject());
             });
         });
     }

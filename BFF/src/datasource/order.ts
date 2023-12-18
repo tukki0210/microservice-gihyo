@@ -17,9 +17,9 @@ export class OrderDataSource {
         this.token = options.token
     }
 
-    async getOrder(id: string): Promise<Order> {
+    async getOrder(id: string): Promise<Order.AsObject> {
         console.log('getOrder')
-        return await new Promise<Order>((resolve, reject) => {
+        return await new Promise<Order.AsObject>((resolve, reject) => {
             const request = new GetOrderRequest()
             request.setOrderid(id)
             this.client.getOrder(request, (err: ServiceError | null, response: GetOrderResponse) => {
@@ -33,14 +33,14 @@ export class OrderDataSource {
                 if (!order) {
                     reject(new Error('Order not found')); return
                 }
-                resolve(order)
+                resolve(order.toObject())
             })
         })
     }
 
-    async listOrders(customerId: string): Promise<Order[]> {
+    async listOrders(customerId: string): Promise<Order.AsObject[]> {
         console.log('listOrders')
-        return await new Promise<Order[]>((resolve, reject) => {
+        return await new Promise<Order.AsObject[]>((resolve, reject) => {
             const request = new ListOrdersRequest()
             request.setCustomerid(customerId)
             this.client.listOrders(request, (err: ServiceError | null, response: ListOrdersResponse) => {
@@ -55,19 +55,19 @@ export class OrderDataSource {
                     newOrder.setCustomerid(order.getCustomerid())
                     newOrder.setCustomername(order.getCustomername())
                     newOrder.setOrderitemList(order.getOrderitemList())
-                    return newOrder
+                    return newOrder.toObject()
                 }))
             })
         })
     }
 
-    async createOrder(input: { customerId: string, customerName: string, orderItem: OrderItem[] }): Promise<Order> {
+    async createOrder(input: { customerId: string, customerName: string, orderItem: OrderItem[] }): Promise<Order.AsObject> {
         const param = {
             customerId: input.customerId,
             customerName: input.customerName,
             orderItem: input.orderItem
         }
-        return await new Promise<Order>((resolve, reject) => {
+        return await new Promise<Order.AsObject>((resolve, reject) => {
             const request = new CreateOrderRequest()
             request.setCustomerid(param.customerId)
             request.setCustomername(param.customerName)
@@ -90,7 +90,7 @@ export class OrderDataSource {
                 order.setCustomerid(request.getCustomerid())
                 order.setCustomername(request.getCustomername())
                 order.setOrderitemList(request.getOrderitemList())
-                resolve(order)
+                resolve(order.toObject())
             })
         })
     }

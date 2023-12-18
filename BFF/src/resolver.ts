@@ -5,11 +5,11 @@ export const resolvers = {
     Query: {
         book: async (parent: unknown, args: { id: number }, context: { dataSources: { catalogueApi: { getBook: (arg0: number) => Promise<Book> } } }) => {
             const book = await context.dataSources.catalogueApi.getBook(args.id)
-            return book.toObject()
+            return book
         },
         books: async (parent: unknown, args: unknown, context: { dataSources: { catalogueApi: { listBooks: () => Promise<Book[]> } } }) => {
             const books = await context.dataSources.catalogueApi.listBooks()
-            return books.map(book => book.toObject())
+            return books
         },
         order: async (parent: unknown, args: { orderid: string }, context: {
             dataSources: {

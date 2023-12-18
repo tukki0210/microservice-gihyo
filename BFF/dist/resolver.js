@@ -5,11 +5,11 @@ exports.resolvers = {
     Query: {
         book: async (parent, args, context) => {
             const book = await context.dataSources.catalogueApi.getBook(args.id);
-            return book.toObject();
+            return book;
         },
         books: async (parent, args, context) => {
             const books = await context.dataSources.catalogueApi.listBooks();
-            return books.map(book => book.toObject());
+            return books;
         },
         order: async (parent, args, context) => {
             const response = await context.dataSources.orderApi.getOrder(args.orderid);

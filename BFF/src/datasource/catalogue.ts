@@ -45,9 +45,9 @@ export class CatalogueDataSource {
     //     return book;
     // }
 
-    async getBook(id: number): Promise<Book> {
+    async getBook(id: number): Promise<Book.AsObject> {
         console.log('getBook')
-        return await new Promise<Book>((resolve, reject) => {
+        return await new Promise<Book.AsObject>((resolve, reject) => {
             const request = new GetBookRequest()
             request.setId(id)
             this.client.getBook(request, (err: ServiceError | null, response: GetBookResponse) => {
@@ -62,15 +62,15 @@ export class CatalogueDataSource {
                     reject(new Error('Book not found')); return
                 }
 
-                resolve(book)
+                resolve(book.toObject())
             })
         })
     }
 
-    async listBooks(): Promise<Book[]> {
+    async listBooks(): Promise<Book.AsObject[]> {
         console.log('listBooks')
         const empty = new Empty()
-        return await new Promise<Book[]>((resolve, reject) => {
+        return await new Promise<Book.AsObject[]>((resolve, reject) => {
             this.client.listBooks(empty, (err: ServiceError | null, response: ListBooksResponse) => {
                 // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
                 if (err) {
@@ -84,7 +84,7 @@ export class CatalogueDataSource {
                     newBook.setAuthor(book.getAuthor())
                     newBook.setPrice(book.getPrice())
                     // console.log(newBook)
-                    return newBook
+                    return newBook.toObject()
                 }))
             })
         })

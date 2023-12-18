@@ -30,7 +30,7 @@ class CatalogueDataSource {
                     reject(new Error('Book not found'));
                     return;
                 }
-                resolve(book);
+                resolve(book.toObject());
             });
         });
     }
@@ -50,7 +50,7 @@ class CatalogueDataSource {
                     newBook.setTitle(book.getTitle());
                     newBook.setAuthor(book.getAuthor());
                     newBook.setPrice(book.getPrice());
-                    return newBook;
+                    return newBook.toObject();
                 }));
             });
         });
