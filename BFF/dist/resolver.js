@@ -4,10 +4,12 @@ exports.resolvers = void 0;
 exports.resolvers = {
     Query: {
         book: async (parent, args, context) => {
-            return await context.dataSources.catalogueApi.getBook(args.id);
+            const book = await context.dataSources.catalogueApi.getBook(args.id);
+            return book.toObject();
         },
         books: async (parent, args, context) => {
-            return await context.dataSources.catalogueApi.listBooks();
+            const books = await context.dataSources.catalogueApi.listBooks();
+            return books.map(book => book.toObject());
         },
         order: async (parent, args, context) => {
             const response = await context.dataSources.orderApi.getOrder(args.orderid);

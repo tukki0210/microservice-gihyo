@@ -31,8 +31,6 @@ export const ProductPage = (props: PropsType) => {
   const [quantity, setQuantity] = useState(1);
   const [getBook, { loading, error, data }] = useLazyQuery(GET_BOOK);
 
-  console.log(open)
-
   const handleClickOpen = () => {
     setOpen(true);
     getBook({ variables: { bookId: props.bookId } });

@@ -4,10 +4,12 @@ import type { CreateOrderRequest, Order, OrderItem } from '../generated/orders_p
 export const resolvers = {
     Query: {
         book: async (parent: unknown, args: { id: number }, context: { dataSources: { catalogueApi: { getBook: (arg0: number) => Promise<Book> } } }) => {
-            return await context.dataSources.catalogueApi.getBook(args.id)
+            const book = await context.dataSources.catalogueApi.getBook(args.id)
+            return book.toObject()
         },
         books: async (parent: unknown, args: unknown, context: { dataSources: { catalogueApi: { listBooks: () => Promise<Book[]> } } }) => {
-            return await context.dataSources.catalogueApi.listBooks()
+            const books = await context.dataSources.catalogueApi.listBooks()
+            return books.map(book => book.toObject())
         },
         order: async (parent: unknown, args: { orderid: string }, context: {
             dataSources: {

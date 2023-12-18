@@ -17,19 +17,13 @@ const LIST_BOOKS = gql`
 }
 `
 
-
 type PropsType = {
     cart: Array<CartItem>;
 };
 
-function sun(){
-    console.log("sun")
-
-}
-
 export const Catalogue = (props: PropsType) => {
     const { loading, error, data } = useQuery(LIST_BOOKS)
-    sun()
+    console.log(data)
     if (loading) return 'Loading...'
     if (error) return `Error! ${error.message}`
 

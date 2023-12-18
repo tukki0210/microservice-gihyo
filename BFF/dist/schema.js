@@ -47,5 +47,4 @@ type Mutation {
     createOrder(order: OrderInput): Order
     # updateOrder(order: OrderInput): Order
     # deleteOrder(orderId: String): Order
-}
-`;
+}`;

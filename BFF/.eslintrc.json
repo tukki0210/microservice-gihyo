@@ -12,7 +12,7 @@
   ],
   "parserOptions": {
     "ecmaVersion": "latest",
-    "project": "./bff/tsconfig.json"
+    "project": "./BFF/tsconfig.json"
   },
   "rules": {
     "@typescript-eslint/indent": "off",

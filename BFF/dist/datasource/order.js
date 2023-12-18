@@ -4,7 +4,7 @@ exports.OrderDataSource = void 0;
 const grpc_js_1 = require("@grpc/grpc-js");
 const orders_grpc_pb_js_1 = require("../../generated/orders_grpc_pb.js");
 const orders_pb_js_1 = require("../../generated/orders_pb.js");
-const clientUri = process.env.CATALOGUE_CLIENT_URI || 'localhost:50052';
+const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50052';
 console.log(clientUri);
 const client = new orders_grpc_pb_js_1.OrderServiceClient(clientUri, grpc_js_1.credentials.createInsecure());
 class OrderDataSource {
@@ -28,12 +28,7 @@ class OrderDataSource {
                     reject(new Error('Order not found'));
                     return;
                 }
-                const newOrder = new orders_pb_js_1.Order();
-                newOrder.setId(order.getId());
-                newOrder.setCustomerid(order.getCustomerid());
-                newOrder.setCustomername(order.getCustomername());
-                newOrder.setOrderitemList(order.getOrderitemList());
-                resolve(newOrder);
+                resolve(order);
             });
         });
     }

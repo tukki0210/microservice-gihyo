@@ -33,13 +33,7 @@ export class OrderDataSource {
                 if (!order) {
                     reject(new Error('Order not found')); return
                 }
-
-                const newOrder = new Order()
-                newOrder.setId(order.getId())
-                newOrder.setCustomerid(order.getCustomerid())
-                newOrder.setCustomername(order.getCustomername())
-                newOrder.setOrderitemList(order.getOrderitemList())
-                resolve(newOrder)
+                resolve(order)
             })
         })
     }

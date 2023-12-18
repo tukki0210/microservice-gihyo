@@ -61,13 +61,8 @@ export class CatalogueDataSource {
                 if (!book) {
                     reject(new Error('Book not found')); return
                 }
-                const newBook = new Book()
-                newBook.setId(book.getId())
-                newBook.setTitle(book.getTitle())
-                newBook.setAuthor(book.getAuthor())
-                newBook.setPrice(book.getPrice())
 
-                resolve(newBook)
+                resolve(book)
             })
         })
     }
@@ -88,6 +83,7 @@ export class CatalogueDataSource {
                     newBook.setTitle(book.getTitle())
                     newBook.setAuthor(book.getAuthor())
                     newBook.setPrice(book.getPrice())
+                    // console.log(newBook)
                     return newBook
                 }))
             })
