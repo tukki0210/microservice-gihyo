@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatalogueDataSource = void 0;
 const grpc_js_1 = require("@grpc/grpc-js");
-const catalogue_grpc_pb_js_1 = require("../../generated/catalogue_grpc_pb.js");
-const catalogue_pb_js_1 = require("../../generated/catalogue_pb.js");
+const catalogue_grpc_pb_js_1 = require("../generated/catalogue_grpc_pb.js");
+const catalogue_pb_js_1 = require("../generated/catalogue_pb.js");
 const empty_pb_1 = require("google-protobuf/google/protobuf/empty_pb");
 const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50051';
 console.log(clientUri);

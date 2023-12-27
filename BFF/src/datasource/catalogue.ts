@@ -1,8 +1,8 @@
 // import protoLoader, { load } from '@grpc/proto-loader';
 import { credentials, type ServiceError } from '@grpc/grpc-js'
 // import DataLoader from 'dataloader'
-import { CatalogueClient } from '../../generated/catalogue_grpc_pb.js'
-import { Book, GetBookRequest, type GetBookResponse, type ListBooksResponse } from '../../generated/catalogue_pb.js'
+import { CatalogueClient } from '../generated/catalogue_grpc_pb.js'
+import { Book, GetBookRequest, type GetBookResponse, type ListBooksResponse } from '../generated/catalogue_pb.js'
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb'
 
 // const ProtoPath = './proto/catalogue.proto';

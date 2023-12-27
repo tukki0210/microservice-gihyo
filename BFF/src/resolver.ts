@@ -1,5 +1,5 @@
-import type { Book } from '../generated/catalogue_pb'
-import type { CreateOrderRequest, Order, OrderItem } from '../generated/orders_pb'
+import type { Book } from './generated/catalogue_pb'
+import type { CreateOrderRequest, Order, OrderItem } from './generated/orders_pb'
 
 export const resolvers = {
     Query: {

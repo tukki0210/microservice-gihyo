@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderDataSource = void 0;
 const grpc_js_1 = require("@grpc/grpc-js");
-const orders_grpc_pb_js_1 = require("../../generated/orders_grpc_pb.js");
-const orders_pb_js_1 = require("../../generated/orders_pb.js");
+const orders_grpc_pb_js_1 = require("../generated/orders_grpc_pb.js");
+const orders_pb_js_1 = require("../generated/orders_pb.js");
 const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50052';
 console.log(clientUri);
 const client = new orders_grpc_pb_js_1.OrderServiceClient(clientUri, grpc_js_1.credentials.createInsecure());
