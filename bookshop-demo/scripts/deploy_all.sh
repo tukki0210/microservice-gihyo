@@ -5,7 +5,7 @@ cd ..
 kind load docker-image gihyo-ms-dev-book/frontend:0.1
 kubectl apply -f frontend/k8s/frontend.yaml
 
-kind load docker-image gihyo-ms-dev-book/bff:0.3
+kind load docker-image gihyo-ms-dev-book/bff:0.1
 kubectl apply -f bff/k8s/bff.yaml
 
 kind load docker-image gihyo-ms-dev-book/catalogue:0.1
