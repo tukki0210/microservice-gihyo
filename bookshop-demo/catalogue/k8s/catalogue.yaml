@@ -35,6 +35,9 @@ spec:
       containers:
       - name: catalogue
         image: gihyo-ms-dev-book/catalogue:0.1
+        env:
+        - name: DATABASE
+          value: "catalogue_user:default_password@tcp(catalogue-db:3306)/booksdb"
         ports:
         - containerPort: 50051
 
