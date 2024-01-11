@@ -9,3 +9,10 @@ sudo sh bookshop-demo/scripts/deploy_all.sh
 
 // デプロイの確認
 kubectl get pod
+
+// サービスの確認
+kubectl get service
+
+// ポートフォワード
+kubectl port-forward service/frontend 8080:80
+kubectl port-forward service/bff 4000:4000
