@@ -8,6 +8,7 @@ import { typeDefs } from './schema.js'
 import { resolvers } from './resolver.js'
 import { CatalogueDataSource } from './datasource/catalogue.js'
 import { OrderDataSource } from './datasource/order.js'
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 
 const app = express()
 
@@ -23,8 +24,8 @@ interface Context {
 // ApolloServer 初期化用の処理
 const server = new ApolloServer<Context>({
     typeDefs,
-    resolvers
-    // plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
 })
 
 // Note you must call `start()` on the `ApolloServer`

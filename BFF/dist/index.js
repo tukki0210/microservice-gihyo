@@ -13,11 +13,13 @@ const schema_js_1 = require("./schema.js");
 const resolver_js_1 = require("./resolver.js");
 const catalogue_js_1 = require("./datasource/catalogue.js");
 const order_js_1 = require("./datasource/order.js");
+const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const app = (0, express_1.default)();
 const httpServer = http_1.default.createServer(app);
 const server = new server_1.ApolloServer({
     typeDefs: schema_js_1.typeDefs,
-    resolvers: resolver_js_1.resolvers
+    resolvers: resolver_js_1.resolvers,
+    plugins: [(0, drainHttpServer_1.ApolloServerPluginDrainHttpServer)({ httpServer })]
 });
 void (async () => {
     await server.start();
