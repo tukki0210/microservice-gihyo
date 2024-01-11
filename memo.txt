@@ -1,0 +1,11 @@
+// 既存のkindクラスタを削除する
+kind delete cluster
+
+// クラスタを起動する
+sudo sh bookshop-demo/scripts/create_kind.sh
+
+// BookShopをkubernetesにデプロイする
+sudo sh bookshop-demo/scripts/deploy_all.sh
+
+// デプロイの確認
+kubectl get pod

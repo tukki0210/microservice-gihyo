@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
       - name: order
-        image: registry.gitlab.com/gihyo-ms-dev-book/handson/sec3/3.1-bookshop-sample/order
+        image: gihyo-ms-dev-book/order:0.1
         env:
         - name: DATABASE
           value: "mongodb://order-db:27017/orders"
@@ -48,7 +48,6 @@ spec:
               port: 50051
             initialDelaySeconds: 10
           readinessProbe:
-            httpGet:
-              path: /health
-              port: 50051
+            grpc:
+              port: 50052
             initialDelaySeconds: 10
