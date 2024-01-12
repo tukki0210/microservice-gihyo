@@ -2,7 +2,7 @@ import { credentials, type ServiceError } from '@grpc/grpc-js'
 import { OrderServiceClient } from '../generated/orders_grpc_pb.js'
 import { CreateOrderRequest, type CreateOrderResponse, GetOrderRequest, type GetOrderResponse, ListOrdersRequest, type ListOrdersResponse, Order, type OrderItem } from '../generated/orders_pb.js'
 
-const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50052'
+const clientUri = process.env.ORDER_CLIENT_URI ?? 'localhost:50052'
 console.log(clientUri)
 
 const client: OrderServiceClient = new OrderServiceClient(clientUri, credentials.createInsecure())
