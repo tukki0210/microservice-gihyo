@@ -18,7 +18,7 @@ type Order {
 }
 
 type OrderItem {
-    itemId : Int,
+    itemId: Int,
     title: String,
     author: String,
     quantity: Int,
@@ -39,7 +39,7 @@ input OrderInput {
 }
 
 input OrderItemInput {
-    itemId : Int,
+    itemId: Int,
     quantity: Int,
     unitPrice: Int,
 }
