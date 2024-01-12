@@ -23,7 +23,6 @@ type PropsType = {
 
 export const Catalogue = (props: PropsType) => {
     const { loading, error, data } = useQuery(LIST_BOOKS)
-    console.log(data)
     if (loading) return 'Loading...'
     if (error) return `Error! ${error.message}`
 

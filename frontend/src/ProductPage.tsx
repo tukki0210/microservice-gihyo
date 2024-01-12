@@ -34,8 +34,6 @@ export const ProductPage = (props: PropsType) => {
   const handleClickOpen = () => {
     setOpen(true);
     getBook({ variables: { bookId: props.bookId } });
-    console.log(props.bookId)
-    console.log(data)
   }
   const handleClose = () => {
     setOpen(false);
@@ -46,7 +44,6 @@ export const ProductPage = (props: PropsType) => {
       book: data.book,
       quantity: quantity,
     })
-    console.log(props.cart)
     setOpen(false);
   }
 

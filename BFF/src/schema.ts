@@ -45,7 +45,7 @@ input OrderItemInput {
 }
 
 type Mutation {
-    createOrder(order: OrderInput): Order
+    createOrder(input: OrderInput): String
     # updateOrder(order: OrderInput): Order
     # deleteOrder(orderId: String): Order
 }`

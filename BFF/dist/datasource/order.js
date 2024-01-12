@@ -4,7 +4,7 @@ exports.OrderDataSource = void 0;
 const grpc_js_1 = require("@grpc/grpc-js");
 const orders_grpc_pb_js_1 = require("../generated/orders_grpc_pb.js");
 const orders_pb_js_1 = require("../generated/orders_pb.js");
-const clientUri = process.env.CATALOGUE_CLIENT_URI ?? 'localhost:50052';
+const clientUri = process.env.ORDER_CLIENT_URI ?? 'localhost:50052';
 console.log(clientUri);
 const client = new orders_grpc_pb_js_1.OrderServiceClient(clientUri, grpc_js_1.credentials.createInsecure());
 class OrderDataSource {
@@ -74,12 +74,7 @@ class OrderDataSource {
                     reject(new Error('Response is null or undefined'));
                     return;
                 }
-                const order = new orders_pb_js_1.Order();
-                order.setId(response.getOrderid());
-                order.setCustomerid(request.getCustomerid());
-                order.setCustomername(request.getCustomername());
-                order.setOrderitemList(request.getOrderitemList());
-                resolve(order.toObject());
+                resolve(response.getOrderid());
             });
         });
     }

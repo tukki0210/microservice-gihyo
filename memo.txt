@@ -7,12 +7,19 @@ sudo sh bookshop-demo/scripts/create_kind.sh
 // BookShopをkubernetesにデプロイする
 sudo sh bookshop-demo/scripts/deploy_all.sh
 
-// デプロイの確認
+// podの確認
 kubectl get pod
 
 // サービスの確認
 kubectl get service
 
+// podの概要を表示
+ kubectl describe pod catalogue-d6446fc8 
+
+// podのログを表示
+ kubectl logs catalogue-d6446fc8
+
 // ポートフォワード
 kubectl port-forward service/frontend 8080:80
 kubectl port-forward service/bff 4000:4000
+

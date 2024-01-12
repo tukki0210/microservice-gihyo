@@ -61,13 +61,13 @@ export class OrderDataSource {
         })
     }
 
-    async createOrder(input: { customerId: string, customerName: string, orderItem: OrderItem[] }): Promise<Order.AsObject> {
+    async createOrder(input: { customerId: string, customerName: string, orderItem: OrderItem[] }): Promise<string> {
         const param = {
             customerId: input.customerId,
             customerName: input.customerName,
             orderItem: input.orderItem
         }
-        return await new Promise<Order.AsObject>((resolve, reject) => {
+        return await new Promise<string>((resolve, reject) => {
             const request = new CreateOrderRequest()
             request.setCustomerid(param.customerId)
             request.setCustomername(param.customerName)
@@ -83,14 +83,8 @@ export class OrderDataSource {
                 if (!response) {
                     reject(new Error('Response is null or undefined')); return
                 }
-                const order = new Order()
-                // サーバから主キーのorderidを取得
-                order.setId(response.getOrderid())
-                // クライアントからのリクエストをそのままセット
-                order.setCustomerid(request.getCustomerid())
-                order.setCustomername(request.getCustomername())
-                order.setOrderitemList(request.getOrderitemList())
-                resolve(order.toObject())
+                resolve(response.getOrderid()
+                )
             })
         })
     }

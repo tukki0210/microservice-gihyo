@@ -54,7 +54,7 @@ export const Cart = (props: PropsType) => {
             variables: {
                 "input": {
                     "customerId": "user",
-                    "customerName": "技術　太郎",
+                    "customerName": "技術 太郎",
                     "orderItem": props.cart.map((item) => {
                         console.log(item);
                         return {
@@ -67,7 +67,7 @@ export const Cart = (props: PropsType) => {
             }
         })
 
-        console.log(props.cart)
+        console.log('カートの中身'+props.cart)
         for (let i = 0; i < props.cart.length; i++) {
             props.cart.pop()
         }
