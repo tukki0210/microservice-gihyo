@@ -1,21 +1,17 @@
-set character_set_database = utf8;
-set character_set_server = utf8;
+set character_set_database=utf8;
+set character_set_server=utf8;
 
 CREATE USER IF NOT EXISTS 'catalogue_user' IDENTIFIED BY 'default_password';
 
 GRANT ALL ON booksdb.* TO 'catalogue_user';
 
-CREATE DATABASE IF NOT EXISTS booksdb;
-
-USE booksdb;
-
 CREATE TABLE IF NOT EXISTS books (
-    id INT,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (id)
-)
+	id int, 
+	title varchar(40), 
+	author varchar(20), 
+	price int, 
+	PRIMARY KEY(id)
+);
 
 INSERT INTO books (ID, title, author, price) 
 VALUES 

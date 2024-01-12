@@ -15,7 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calalogue
+  name: catalogue
   labels:
     app: catalogue
     version: v1
@@ -40,12 +40,10 @@ spec:
           ports:
             - containerPort: 50051
           livenessProbe:
-            httpGet:
-              path: /health
+            grpc:
               port: 50051
             initialDelaySeconds: 10
           readinessProbe:
-            httpGet:
-              path: /health
+            grpc:
               port: 50051
             initialDelaySeconds: 10
