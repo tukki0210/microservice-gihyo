@@ -18,7 +18,6 @@ export class OrderDataSource {
     }
 
     async getOrder(id: string): Promise<Order.AsObject> {
-        console.log('getOrder')
         return await new Promise<Order.AsObject>((resolve, reject) => {
             const request = new GetOrderRequest()
             request.setOrderid(id)
@@ -39,7 +38,6 @@ export class OrderDataSource {
     }
 
     async listOrders(customerId: string): Promise<Order.AsObject[]> {
-        console.log('listOrders')
         return await new Promise<Order.AsObject[]>((resolve, reject) => {
             const request = new ListOrdersRequest()
             request.setCustomerid(customerId)

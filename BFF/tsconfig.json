@@ -13,6 +13,6 @@
     "strictNullChecks": true
   },
   "include": [
-    "src/**/*",
-    "generated/**/*.d.ts"],
+    "src/**/*"
+  ],
 }
