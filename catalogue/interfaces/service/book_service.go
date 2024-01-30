@@ -44,7 +44,7 @@ func (s *BookServer) ListBooks(ctx context.Context, in *emptypb.Empty) (*pb.List
 
 func BookToProto(book *model.Book) *pb.Book {
 	return &pb.Book{
-		Id:     int32(book.Id),
+		BookId:     int32(book.Id),
 		Title:  book.Title,
 		Author: book.Author,
 		Price:  int32(book.Price),
@@ -52,7 +52,7 @@ func BookToProto(book *model.Book) *pb.Book {
 }
 
 func (s *BookServer) GetBook(ctx context.Context, request *pb.GetBookRequest)(*pb.GetBookResponse, error) {
-	params := usecase.GetBooksParam{ID: int(request.Id)}
+	params := usecase.GetBooksParam{ID: int(request.BookId)}
 
 	book, err := s.getBook(ctx, params)
 	if err != nil {
